@@ -13,6 +13,7 @@ source_paths = [
 ]
 
 # clone the repository
+print("Cloning CMSIS_5 repository...")
 if not Path("CMSIS_5").exists():
     subprocess.run("git clone https://github.com/arm-software/CMSIS_5.git", shell=True)
 
@@ -20,7 +21,11 @@ if not Path("CMSIS_5").exists():
 if Path("CMSIS").exists():
     shutil.rmtree("CMSIS")
 
+print("Copying CMSIS_5 sources...")
 for path in source_paths:
     # create path and parents
     path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copytree(str("CMSIS_5" / path), str(path))
+
+print("Normalizing CMSIS_5 newlines and whitespace...")
+subprocess.run("sh ./post_script.sh > /dev/null 2>&1", shell=True)
