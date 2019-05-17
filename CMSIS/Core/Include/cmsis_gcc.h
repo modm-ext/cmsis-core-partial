@@ -121,8 +121,6 @@
 
 #ifndef __PROGRAM_START
 
-#include <string.h>
-
 /**
   \brief   Initializes data and bss sections
   \details This default implementations initialized all data and additional bss
@@ -133,22 +131,33 @@
 __STATIC_FORCEINLINE __NO_RETURN void __cmsis_start(void)
 {
   extern void _start(void) __NO_RETURN;
-  extern uint32_t __copy_table_start__;
-  extern uint32_t __copy_table_end__;
-  extern uint32_t __zero_table_start__;
-  extern uint32_t __zero_table_end__;
 
-  for (uint32_t *pTable = &__copy_table_start__; pTable < &__copy_table_end__; pTable = pTable + 3) {
-    const uint32_t *pSrc  = (uint32_t*)*(pTable + 0);
-          uint32_t *pDest = (uint32_t*)*(pTable + 1);
-    const size_t  len     = *(pTable + 2);
-    memcpy(pDest, pSrc, len);
+  typedef struct {
+    uint32_t const* src;
+    uint32_t* dest;
+    uint32_t  wlen;
+  } __copy_table_t;
+
+  typedef struct {
+    uint32_t* dest;
+    uint32_t  wlen;
+  } __zero_table_t;
+
+  extern const __copy_table_t __copy_table_start__;
+  extern const __copy_table_t __copy_table_end__;
+  extern const __zero_table_t __zero_table_start__;
+  extern const __zero_table_t __zero_table_end__;
+
+  for (__copy_table_t const* pTable = &__copy_table_start__; pTable < &__copy_table_end__; ++pTable) {
+    for(uint32_t i=0u; i<pTable->wlen; ++i) {
+      pTable->dest[i] = pTable->src[i];
+    }
   }
 
-  for (uint32_t *pTable = &__zero_table_start__; pTable < &__zero_table_end__; pTable = pTable + 2) {
-          uint32_t *pDest = (uint32_t*)*(pTable + 0);
-    const size_t    len   = *(pTable + 1);
-    memset(pDest, 0, len);
+  for (__zero_table_t const* pTable = &__zero_table_start__; pTable < &__zero_table_end__; ++pTable) {
+    for(uint32_t i=0u; i<pTable->wlen; ++i) {
+      pTable->dest[i] = 0u;
+    }
   }
 
   _start();
