@@ -320,6 +320,7 @@
 
 #include "string.h"
 #include "math.h"
+#include "float.h"
 
 /* evaluate ARM DSP feature */
 #if (defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
@@ -816,8 +817,6 @@ compiler file in Core or Core_A would not make sense.
   }
 
 #if defined(ARM_MATH_NEON)
-
-#define FLT_MIN 1E-37
 
 static inline float32x4_t __arm_vec_sqrt_f32_neon(float32x4_t  x)
 {
