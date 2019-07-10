@@ -7,9 +7,11 @@ import subprocess
 from pathlib import Path
 
 source_paths = [
-    Path("CMSIS/Core/Include"),
-    Path("CMSIS/DSP/Include"),
-    Path("CMSIS/DSP/Source")
+    "CMSIS/Core/Include",
+    "CMSIS/DSP/Include",
+    "CMSIS/DSP/Source",
+    "CMSIS/DSP/Examples/ARM/*_example/*.c",
+    "CMSIS/DSP/Examples/ARM/*_example/*.h",
 ]
 
 # clone the repository
@@ -22,10 +24,14 @@ if Path("CMSIS").exists():
     shutil.rmtree("CMSIS")
 
 print("Copying CMSIS_5 sources...")
-for path in source_paths:
-    # create path and parents
-    path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(str("CMSIS_5" / path), str(path))
+for pattern in source_paths:
+    for path in Path("CMSIS_5").glob(pattern):
+        dest = path.relative_to("CMSIS_5")
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if path.is_dir():
+            shutil.copytree(path, dest)
+        else:
+            shutil.copy2(path, dest)
 
 print("Normalizing CMSIS_5 newlines and whitespace...")
 subprocess.run("sh ./post_script.sh > /dev/null 2>&1", shell=True)
