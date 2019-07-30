@@ -7,7 +7,6 @@ include(config)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 
-option(FASTMATHCOMPUTATIONS "Fast Math enabled" ON)
 option(NEON "Neon acceleration" OFF)
 option(NEONEXPERIMENTAL "Neon experimental acceleration" OFF)
 option(LOOPUNROLL "Loop unrolling" ON)
@@ -225,6 +224,8 @@ if (FILTERING OR CONTROLLER OR FASTMATH OR TRANSFORM OR SVM OR DISTANCE)
     endif()
   endif()
   target_link_libraries(CMSISDSP INTERFACE CMSISDSPCommon)
+  # Common project is adding ComputeLibrary tables used by SVM and Distance
+  # when NEon is ON.
 endif()
 
 if (SVM)
