@@ -970,7 +970,7 @@ MSVC is not going to be used to cross-compile to ARM. So, having a MSVC
 compiler file in Core or Core_A would not make sense.
 
 */
-#if defined ( _MSC_VER ) || defined (__GNUC_PYTHON__)
+#if defined ( _MSC_VER ) || (__GNUC_PYTHON__)
     __STATIC_FORCEINLINE uint8_t __CLZ(uint32_t data)
     {
       if (data == 0U) { return 32U; }
@@ -1282,7 +1282,7 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
     q31_t   result;
     q63_t   absNum;
     q31_t   normalized;
-    int     norm;
+    q31_t   norm;
 
     /*
      * if sum fits in 32bits
@@ -8427,7 +8427,7 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
   #define IAR_ONLY_LOW_OPTIMIZATION_ENTER
   #define IAR_ONLY_LOW_OPTIMIZATION_EXIT
 
-#elif defined ( _MSC_VER ) || defined (__GNUC_PYTHON__)
+#elif defined ( _MSC_VER ) || (__GNUC_PYTHON__)
       #define LOW_OPTIMIZATION_ENTER
       #define LOW_OPTIMIZATION_EXIT
       #define IAR_ONLY_LOW_OPTIMIZATION_ENTER
