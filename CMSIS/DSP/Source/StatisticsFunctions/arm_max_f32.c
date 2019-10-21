@@ -66,8 +66,8 @@ void arm_max_f32(
 {
     uint32_t blkCnt;
     f32x4_t vecSrc;
-    f32x4_t curExtremValVec = vdupq_n_f32(FLT_MIN);
-    float32_t maxValue = FLT_MIN;
+    f32x4_t curExtremValVec = vdupq_n_f32(F32_MIN);
+    float32_t maxValue = F32_MIN;
     uint32_t idx = blockSize;
     uint32x4_t indexVec;
     uint32x4_t curExtremIdxVec;
@@ -149,7 +149,7 @@ void arm_max_f32(
   float32_t * pResult,
   uint32_t * pIndex)
 {
-  float32_t maxVal1, maxVal2, out;               /* Temporary variables to store the output value. */
+  float32_t maxVal1, out;               /* Temporary variables to store the output value. */
   uint32_t blkCnt, outIndex, count;              /* loop counter */
 
   float32x4_t outV, srcV;

@@ -74,7 +74,7 @@ void arm_dot_prod_f32(
     f32x4_t vecSum;
     uint32_t blkCnt;
     float32_t sum = 0.0f;
-    vecSum = vdupq_n_f32(0.0);
+    vecSum = vdupq_n_f32(0.0f);
 
     /* Compute 4 outputs at a time */
     blkCnt = blockSize >> 2U;
@@ -131,7 +131,6 @@ void arm_dot_prod_f32(
 #if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
     f32x4_t vec1;
     f32x4_t vec2;
-    f32x4_t res;
     f32x4_t accum = vdupq_n_f32(0);
 
     /* Compute 4 outputs at a time */
