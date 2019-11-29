@@ -50,6 +50,58 @@ if (CONFIGTABLE AND CFFT_F32_4096)
     target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT_4096)
 endif()
 
+
+#######################################
+#
+# CFFT F64
+#
+
+
+if (CONFIGTABLE AND CFFT_F64_16)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_16)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_16)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_64)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_64)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_128)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_256)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_512)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_1024)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_2048)
+endif()
+
+if (CONFIGTABLE AND CFFT_F64_4096)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_4096)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_4096)
+endif()
+
 #######################################
 #
 # CFFT Q31
@@ -148,6 +200,67 @@ endif()
 if (CONFIGTABLE AND CFFT_Q15_4096)
     target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_Q15_4096)
     target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FXT_4096)
+endif()
+
+#######################################
+#
+# RFFT FAST F64
+#
+
+if (CONFIGTABLE AND RFFT_FAST_F64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_16)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_16)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_16)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_32)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_32)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_64)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_64)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_128)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_128)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_256)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_256)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_512)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_512)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_1024)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_1024)
+endif()
+
+if (CONFIGTABLE AND RFFT_FAST_F64_4096)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_BITREVIDX_FLT64_2048)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_RFFT_F64_4096)
+    target_compile_definitions(${PROJECT} PUBLIC ARM_TABLE_TWIDDLECOEF_F64_2048)
 endif()
 
 #######################################

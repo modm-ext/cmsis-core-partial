@@ -32,9 +32,45 @@
 #include "arm_math.h"
 
 #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FFT_ALLOW_TABLES)
-
+  /* Double Precision Float CFFT twiddles */
   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREV_1024)
     extern const uint16_t armBitRevTable[1024];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_16)
+    extern const uint64_t twiddleCoefF64_16[32];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_32)
+    extern const uint64_t twiddleCoefF64_32[64];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_64)
+    extern const uint64_t twiddleCoefF64_64[128];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_128)
+    extern const uint64_t twiddleCoefF64_128[256];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_256)
+    extern const uint64_t twiddleCoefF64_256[512];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_512)
+    extern const uint64_t twiddleCoefF64_512[1024];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_1024)
+    extern const uint64_t twiddleCoefF64_1024[2048];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_2048)
+    extern const uint64_t twiddleCoefF64_2048[4096];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_4096)
+    extern const uint64_t twiddleCoefF64_4096[8192];
   #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_16)
@@ -146,6 +182,40 @@
     extern const q15_t twiddleCoef_4096_q15[6144];
   #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
+  /* Double Precision Float RFFT twiddles */
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_32)
+    extern const uint64_t twiddleCoefF64_rfft_32[32];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_64)
+    extern const uint64_t twiddleCoefF64_rfft_64[64];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_128)
+    extern const uint64_t twiddleCoefF64_rfft_128[128];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_256)
+    extern const uint64_t twiddleCoefF64_rfft_256[256];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_512)
+    extern const uint64_t twiddleCoefF64_rfft_512[512];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_1024)
+    extern const uint64_t twiddleCoefF64_rfft_1024[1024];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_2048)
+    extern const uint64_t twiddleCoefF64_rfft_2048[2048];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_4096)
+    extern const uint64_t twiddleCoefF64_rfft_4096[4096];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+
   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_32)
     extern const float32_t twiddleCoef_rfft_32[32];
   #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
@@ -178,6 +248,53 @@
     extern const float32_t twiddleCoef_rfft_4096[4096];
   #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
+
+  /* Double precision floating-point bit reversal tables */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_16)
+    #define ARMBITREVINDEXTABLEF64_16_TABLE_LENGTH ((uint16_t)12)
+    extern const uint16_t armBitRevIndexTableF64_16[ARMBITREVINDEXTABLEF64_16_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_32)
+    #define ARMBITREVINDEXTABLEF64_32_TABLE_LENGTH ((uint16_t)24)
+    extern const uint16_t armBitRevIndexTableF64_32[ARMBITREVINDEXTABLEF64_32_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_64)
+    #define ARMBITREVINDEXTABLEF64_64_TABLE_LENGTH ((uint16_t)56)
+    extern const uint16_t armBitRevIndexTableF64_64[ARMBITREVINDEXTABLEF64_64_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_128)
+    #define ARMBITREVINDEXTABLEF64_128_TABLE_LENGTH ((uint16_t)112)
+    extern const uint16_t armBitRevIndexTableF64_128[ARMBITREVINDEXTABLEF64_128_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_256)
+    #define ARMBITREVINDEXTABLEF64_256_TABLE_LENGTH ((uint16_t)240)
+    extern const uint16_t armBitRevIndexTableF64_256[ARMBITREVINDEXTABLEF64_256_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_512)
+    #define ARMBITREVINDEXTABLEF64_512_TABLE_LENGTH ((uint16_t)480)
+    extern const uint16_t armBitRevIndexTableF64_512[ARMBITREVINDEXTABLEF64_512_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_1024)
+    #define ARMBITREVINDEXTABLEF64_1024_TABLE_LENGTH ((uint16_t)992)
+    extern const uint16_t armBitRevIndexTableF64_1024[ARMBITREVINDEXTABLEF64_1024_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_2048)
+    #define ARMBITREVINDEXTABLEF64_2048_TABLE_LENGTH ((uint16_t)1984)
+    extern const uint16_t armBitRevIndexTableF64_2048[ARMBITREVINDEXTABLEF64_2048_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
+
+  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_4096)
+    #define ARMBITREVINDEXTABLEF64_4096_TABLE_LENGTH ((uint16_t)4032)
+    extern const uint16_t armBitRevIndexTableF64_4096[ARMBITREVINDEXTABLEF64_4096_TABLE_LENGTH];
+  #endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
   /* floating-point bit reversal tables */
 
   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_16)
