@@ -149,6 +149,14 @@
  * @param[in]  blockSize  number of samples of output data.
  */
 
+/*
+
+Temporary fix because some arrays are defined on the stack.
+They should be passed as additional arguments to the function.
+
+*/
+#define MAX_DATA_POINTS 40
+
 void arm_spline_f32(
         arm_spline_instance_f32 * S,
   const float32_t * x,
@@ -157,17 +165,31 @@ void arm_spline_f32(
         float32_t * pDst,
 	uint32_t blockSize)
 {
+
+    /*
+
+    As explained in arm_spline_interp_init_f32.c, this must be > 1
+
+    */
     int32_t n = S->n_x;
     arm_spline_type type = S->type;
 
     float32_t hi, hm1;
 
-    /* Temporary variables for system AX=B */
-    float32_t u[n-1], z[n], c[n];
+    /*
+
+    Temporary variables for system AX=B.
+    This will be replaced by new arguments for the function.
+
+     */
+    float32_t u[MAX_DATA_POINTS], z[MAX_DATA_POINTS], c[MAX_DATA_POINTS];
     float32_t Bi, li;
 
     float32_t bi, di;
     float32_t x_sc;
+
+    bi = 0.0f;
+    di = 0.0f;
 
     const float32_t * pXq = xq;
 
@@ -341,6 +363,7 @@ void arm_spline_f32(
         pDst++;
         blkCnt2--;
     }
+
 }
 
 /**
