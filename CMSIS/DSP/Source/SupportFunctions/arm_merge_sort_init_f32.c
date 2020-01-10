@@ -1,15 +1,15 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        CommonTables.c
- * Description:  Combination of all common table source files.
+ * Title:        arm_merge_sort_init_f32.c
+ * Description:  Floating point merge sort initialization function
  *
- * $Date:        18. March 2019
- * $Revision:    V1.0.0
+ * $Date:        2019
+ * $Revision:    V1.6.0
  *
- * Target Processor: Cortex-M cores
+ * Target Processor: Cortex-M and Cortex-A cores
  * -------------------------------------------------------------------- */
 /*
- * Copyright (C) 2019 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -26,6 +26,10 @@
  * limitations under the License.
  */
 
-#include "arm_common_tables.c"
-#include "arm_const_structs.c"
-#include "arm_mve_tables.c"
+#include "arm_math.h"
+
+void arm_merge_sort_init_f32(arm_merge_sort_instance_f32 * S, arm_sort_dir dir, float32_t * buffer)
+{
+    S->dir    = dir;
+    S->buffer = buffer;
+}

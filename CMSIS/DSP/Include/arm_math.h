@@ -909,7 +909,11 @@ __STATIC_FORCEINLINE q31_t read_q15x2 (
 {
   q31_t val;
 
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (&val, pQ15, 4);
+#else
+  val = (pQ15[1] << 16) | (pQ15[0] & 0x0FFFF) ;
+#endif
 
   return (val);
 }
@@ -924,10 +928,14 @@ __STATIC_FORCEINLINE q31_t read_q15x2_ia (
 {
   q31_t val;
 
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (&val, *pQ15, 4);
-  *pQ15 += 2;
+#else
+  val = ((*pQ15)[1] << 16) | ((*pQ15)[0] & 0x0FFFF);
+#endif
 
-  return (val);
+ *pQ15 += 2;
+ return (val);
 }
 
 /**
@@ -940,9 +948,13 @@ __STATIC_FORCEINLINE q31_t read_q15x2_da (
 {
   q31_t val;
 
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (&val, *pQ15, 4);
-  *pQ15 -= 2;
+#else
+  val = ((*pQ15)[1] << 16) | ((*pQ15)[0] & 0x0FFFF);
+#endif
 
+  *pQ15 -= 2;
   return (val);
 }
 
@@ -957,9 +969,14 @@ __STATIC_FORCEINLINE void write_q15x2_ia (
   q31_t    value)
 {
   q31_t val = value;
-
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (*pQ15, &val, 4);
-  *pQ15 += 2;
+#else
+  (*pQ15)[0] = (val & 0x0FFFF);
+  (*pQ15)[1] = (val >> 16) & 0x0FFFF;
+#endif
+
+ *pQ15 += 2;
 }
 
 /**
@@ -974,7 +991,12 @@ __STATIC_FORCEINLINE void write_q15x2 (
 {
   q31_t val = value;
 
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (pQ15, &val, 4);
+#else
+  pQ15[0] = val & 0x0FFFF;
+  pQ15[1] = val >> 16;
+#endif
 }
 
 
@@ -988,7 +1010,13 @@ __STATIC_FORCEINLINE q31_t read_q7x4_ia (
 {
   q31_t val;
 
+
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (&val, *pQ7, 4);
+#else
+  val =(((*pQ7)[3] & 0x0FF) << 24)  | (((*pQ7)[2] & 0x0FF) << 16)  | (((*pQ7)[1] & 0x0FF) << 8)  | ((*pQ7)[0] & 0x0FF);
+#endif
+
   *pQ7 += 4;
 
   return (val);
@@ -1003,8 +1031,11 @@ __STATIC_FORCEINLINE q31_t read_q7x4_da (
   q7_t ** pQ7)
 {
   q31_t val;
-
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (&val, *pQ7, 4);
+#else
+  val = ((((*pQ7)[3]) & 0x0FF) << 24) | ((((*pQ7)[2]) & 0x0FF) << 16)   | ((((*pQ7)[1]) & 0x0FF) << 8)  | ((*pQ7)[0] & 0x0FF);
+#endif
   *pQ7 -= 4;
 
   return (val);
@@ -1021,8 +1052,15 @@ __STATIC_FORCEINLINE void write_q7x4_ia (
   q31_t   value)
 {
   q31_t val = value;
-
+#ifdef __ARM_FEATURE_UNALIGNED
   memcpy (*pQ7, &val, 4);
+#else
+  (*pQ7)[0] = val & 0x0FF;
+  (*pQ7)[1] = (val >> 8) & 0x0FF;
+  (*pQ7)[2] = (val >> 16) & 0x0FF;
+  (*pQ7)[3] = (val >> 24) & 0x0FF;
+
+#endif
   *pQ7 += 4;
 }
 
@@ -2226,11 +2264,9 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
              /**< Heap sort      */
     ARM_SORT_INSERTION = 3,
              /**< Insertion sort */
-    ARM_SORT_MERGE     = 4,
-             /**< Merge sort     */
-    ARM_SORT_QUICK     = 5,
+    ARM_SORT_QUICK     = 4,
              /**< Quick sort     */
-    ARM_SORT_SELECTION = 6
+    ARM_SORT_SELECTION = 5
              /**< Selection sort */
   } arm_sort_alg;
 
@@ -2277,6 +2313,37 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
     arm_sort_dir dir);
 
   /**
+   * @brief Instance structure for the sorting algorithms.
+   */
+  typedef struct
+  {
+    arm_sort_dir dir;        /**< Sorting order (direction)  */
+    float32_t * buffer;      /**< Working buffer */
+  } arm_merge_sort_instance_f32;
+
+  /**
+   * @param[in]      S          points to an instance of the sorting structure.
+   * @param[in,out]  pSrc       points to the block of input data.
+   * @param[out]     pDst       points to the block of output data
+   * @param[in]      blockSize  number of samples to process.
+   */
+  void arm_merge_sort_f32(
+    const arm_merge_sort_instance_f32 * S,
+          float32_t *pSrc,
+          float32_t *pDst,
+          uint32_t blockSize);
+
+  /**
+   * @param[in,out]  S            points to an instance of the sorting structure.
+   * @param[in]      dir          Sorting order.
+   * @param[in]      buffer       Working buffer.
+   */
+  void arm_merge_sort_init_f32(
+    arm_merge_sort_instance_f32 * S,
+    arm_sort_dir dir,
+    float32_t * buffer);
+
+  /**
    * @brief Struct for specifying cubic spline type
    */
   typedef enum
@@ -2292,6 +2359,7 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
   {
     uint32_t n_x;              /**< Number of known data points */
     arm_spline_type type;      /**< Type (boundary conditions) */
+    float32_t * buffer;
   } arm_spline_instance_f32;
 
   /**
@@ -2309,7 +2377,7 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
     const float32_t * y,
     const float32_t * xq,
           float32_t * pDst,
-	  uint32_t blockSize);
+          uint32_t blockSize);
 
   /**
    * @brief Initialization function for the floating-point cubic spline interpolation.
@@ -2320,7 +2388,8 @@ __STATIC_INLINE q31_t arm_div_q63_to_q31(q63_t num, q31_t den)
   void arm_spline_init_f32(
     arm_spline_instance_f32 * S,
     uint32_t n,
-    arm_spline_type type);
+    arm_spline_type type,
+    float32_t * buffer);
 
   /**
    * @brief Instance structure for the floating-point matrix structure.
@@ -3078,7 +3147,20 @@ void arm_cfft_q31(
     const float32_t *pTwiddle;         /**< points to the Twiddle factor table. */
     const uint16_t *pBitRevTable;      /**< points to the bit reversal table. */
           uint16_t bitRevLength;             /**< bit reversal table length. */
+#if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+   const uint32_t *rearranged_twiddle_tab_stride1_arr;        /**< Per stage reordered twiddle pointer (offset 1) */                                                       \
+   const uint32_t *rearranged_twiddle_tab_stride2_arr;        /**< Per stage reordered twiddle pointer (offset 2) */                                                       \
+   const uint32_t *rearranged_twiddle_tab_stride3_arr;        /**< Per stage reordered twiddle pointer (offset 3) */                                                       \
+   const float32_t *rearranged_twiddle_stride1; /**< reordered twiddle offset 1 storage */                                                                   \
+   const float32_t *rearranged_twiddle_stride2; /**< reordered twiddle offset 2 storage */                                                                   \
+   const float32_t *rearranged_twiddle_stride3;
+#endif
   } arm_cfft_instance_f32;
+
+
+  arm_status arm_cfft_init_f32(
+  arm_cfft_instance_f32 * S,
+  uint16_t fftLen);
 
   void arm_cfft_f32(
   const arm_cfft_instance_f32 * S,
@@ -4588,7 +4670,7 @@ arm_status arm_fir_decimate_init_f32(
    */
   void arm_biquad_cas_df1_32x64_q31(
   const arm_biquad_cas_df1_32x64_ins_q31 * S,
-        q31_t * pSrc,
+  const q31_t * pSrc,
         q31_t * pDst,
         uint32_t blockSize);
 
@@ -4635,7 +4717,7 @@ arm_status arm_fir_decimate_init_f32(
   {
           uint8_t numStages;         /**< number of 2nd order stages in the filter.  Overall order is 2*numStages. */
           float64_t *pState;         /**< points to the array of state coefficients.  The array is of length 2*numStages. */
-          float64_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
+    const float64_t *pCoeffs;        /**< points to the array of coefficients.  The array is of length 5*numStages. */
   } arm_biquad_cascade_df2T_instance_f64;
 
 
@@ -4676,7 +4758,7 @@ arm_status arm_fir_decimate_init_f32(
    */
   void arm_biquad_cascade_df2T_f64(
   const arm_biquad_cascade_df2T_instance_f64 * S,
-        float64_t * pSrc,
+  const float64_t * pSrc,
         float64_t * pDst,
         uint32_t blockSize);
 
@@ -4725,7 +4807,7 @@ void arm_biquad_cascade_df2T_compute_coefs_f32(
   void arm_biquad_cascade_df2T_init_f64(
         arm_biquad_cascade_df2T_instance_f64 * S,
         uint8_t numStages,
-        float64_t * pCoeffs,
+        const float64_t * pCoeffs,
         float64_t * pState);
 
 
