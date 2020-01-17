@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        arm_cfft_init_f32.c
- * Description:  Initialization function for cfft f32 instance
+ * Title:        arm_cfft_init_q15.c
+ * Description:  Initialization function for cfft q15 instance
  *
  * $Date:        07. January 2020
  * $Revision:    V1.7.0
@@ -37,7 +37,7 @@
  */
 
 /**
-  @brief         Initialization function for the cfft f32 function
+  @brief         Initialization function for the cfft q15 function
   @param[in,out] S              points to an instance of the floating-point CFFT structure
   @param[in]     fftLen         fft length (number of complex samples)
   @return        execution status
@@ -53,79 +53,80 @@
 #include "arm_common_tables.h"
 #include "arm_const_structs.h"
 
-#if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+#if defined(ARM_MATH_MVEI)
 
 #include "arm_vec_fft.h"
 #include "arm_mve_tables.h"
 
-arm_status arm_cfft_radix4by2_rearrange_twiddles_f32(arm_cfft_instance_f32 *S, int twidCoefModifier)
+
+arm_status arm_cfft_radix4by2_rearrange_twiddles_q15(arm_cfft_instance_q15 *S, int twidCoefModifier)
 {
 
         switch (S->fftLen >> (twidCoefModifier - 1)) {
 
 #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_4096)
         case 4096U:
-            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_4096_f32;
-            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_4096_f32;
+            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_4096_q15;
+            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_4096_q15;
 
-            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_4096_f32;
-            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_4096_f32;
+            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_4096_q15;
+            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_4096_q15;
 
-            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_4096_f32;
-            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_4096_f32;
+            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_4096_q15;
+            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_4096_q15;
             break;
 #endif
 
 #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_1024) || defined(ARM_TABLE_BITREVIDX_FXT_2048)
         case 1024U:
-            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_1024_f32;
-            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_1024_f32;
+            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_1024_q15;
+            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_1024_q15;
 
-            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_1024_f32;
-            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_1024_f32;
+            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_1024_q15;
+            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_1024_q15;
 
-            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_1024_f32;
-            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_1024_f32;
+            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_1024_q15;
+            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_1024_q15;
             break;
  #endif
 
  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_256) || defined(ARM_TABLE_BITREVIDX_FXT_512)
         case 256U:
-            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_256_f32;
-            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_256_f32;
+            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_256_q15;
+            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_256_q15;
 
-            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_256_f32;
-            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_256_f32;
+            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_256_q15;
+            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_256_q15;
 
-            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_256_f32;
-            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_256_f32;
+            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_256_q15;
+            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_256_q15;
 
             break;
 #endif
 
 #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_64) || defined(ARM_TABLE_BITREVIDX_FXT_128)
         case 64U:
-            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_64_f32;
-            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_64_f32;
+            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_64_q15;
+            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_64_q15;
 
-            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_64_f32;
-            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_64_f32;
+            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_64_q15;
+            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_64_q15;
 
-            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_64_f32;
-            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_64_f32;
+            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_64_q15;
+            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_64_q15;
             break;
 #endif
 
 #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_16) || defined(ARM_TABLE_BITREVIDX_FXT_32)
         case 16U:
-            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_16_f32;
-            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_16_f32;
+            S->rearranged_twiddle_tab_stride1_arr = rearranged_twiddle_tab_stride1_arr_16_q15;
+            S->rearranged_twiddle_stride1  =  rearranged_twiddle_stride1_16_q15;
 
-            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_16_f32;
-            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_16_f32;
+            S->rearranged_twiddle_tab_stride2_arr = rearranged_twiddle_tab_stride2_arr_16_q15;
+            S->rearranged_twiddle_stride2  =  rearranged_twiddle_stride2_16_q15;
 
-            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_16_f32;
-            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_16_f32;
+            S->rearranged_twiddle_tab_stride3_arr = rearranged_twiddle_tab_stride3_arr_16_q15;
+            S->rearranged_twiddle_stride3  =  rearranged_twiddle_stride3_16_q15;
             break;
 #endif
 
@@ -139,8 +140,10 @@ arm_status arm_cfft_radix4by2_rearrange_twiddles_f32(arm_cfft_instance_f32 *S, i
 
 }
 
-arm_status arm_cfft_init_f32(
-  arm_cfft_instance_f32 * S,
+
+
+arm_status arm_cfft_init_q15(
+  arm_cfft_instance_q15 * S,
   uint16_t fftLen)
 {
 
@@ -162,8 +165,8 @@ arm_status arm_cfft_init_f32(
             /*  Initialise the bit reversal table modifier */
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_4096_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_4096;
-            S->pTwiddle = (float32_t *)twiddleCoef_4096;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 1);
+            S->pTwiddle = (q15_t *)twiddleCoef_4096_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 1);
             break;
 #endif
 
@@ -173,8 +176,8 @@ arm_status arm_cfft_init_f32(
             /*  Initialise the bit reversal table modifier */
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_2048_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_2048;
-            S->pTwiddle = (float32_t *)twiddleCoef_2048;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 2);
+            S->pTwiddle = (q15_t *)twiddleCoef_2048_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 2);
             break;
 #endif
 
@@ -184,8 +187,8 @@ arm_status arm_cfft_init_f32(
             /*  Initialise the bit reversal table modifier */
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_1024_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_1024;
-            S->pTwiddle = (float32_t *)twiddleCoef_1024;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 1);
+            S->pTwiddle = (q15_t *)twiddleCoef_1024_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 1);
             break;
 #endif
 
@@ -195,8 +198,8 @@ arm_status arm_cfft_init_f32(
             /*  Initialise the bit reversal table modifier */
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_512_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_512;
-            S->pTwiddle = (float32_t *)twiddleCoef_512;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 2);
+            S->pTwiddle = (q15_t *)twiddleCoef_512_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 2);
             break;
 #endif
 
@@ -204,8 +207,8 @@ arm_status arm_cfft_init_f32(
         case 256U:
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_256_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_256;
-            S->pTwiddle = (float32_t *)twiddleCoef_256;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 1);
+            S->pTwiddle = (q15_t *)twiddleCoef_256_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 1);
             break;
 #endif
 
@@ -213,8 +216,8 @@ arm_status arm_cfft_init_f32(
         case 128U:
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_128_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_128;
-            S->pTwiddle = (float32_t *)twiddleCoef_128;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 2);
+            S->pTwiddle = (q15_t *)twiddleCoef_128_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 2);
             break;
 #endif
 
@@ -222,8 +225,8 @@ arm_status arm_cfft_init_f32(
         case 64U:
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_64_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_64;
-            S->pTwiddle = (float32_t *)twiddleCoef_64;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 1);
+            S->pTwiddle = (q15_t *)twiddleCoef_64_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 1);
             break;
 #endif
 
@@ -231,8 +234,8 @@ arm_status arm_cfft_init_f32(
         case 32U:
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_32_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_32;
-            S->pTwiddle = (float32_t *)twiddleCoef_32;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 2);
+            S->pTwiddle = (q15_t *)twiddleCoef_32_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 2);
             break;
 #endif
 
@@ -241,8 +244,8 @@ arm_status arm_cfft_init_f32(
             /*  Initializations of structure parameters for 16 point FFT */
             S->bitRevLength = ARMBITREVINDEXTABLE_FIXED_16_TABLE_LENGTH;
             S->pBitRevTable = (uint16_t *)armBitRevIndexTable_fixed_16;
-            S->pTwiddle = (float32_t *)twiddleCoef_16;
-            status=arm_cfft_radix4by2_rearrange_twiddles_f32(S, 1);
+            S->pTwiddle = (q15_t *)twiddleCoef_16_q15;
+            status=arm_cfft_radix4by2_rearrange_twiddles_q15(S, 1);
             break;
 #endif
 
@@ -256,8 +259,8 @@ arm_status arm_cfft_init_f32(
         return (status);
 }
 #else
-arm_status arm_cfft_init_f32(
-  arm_cfft_instance_f32 * S,
+arm_status arm_cfft_init_q15(
+  arm_cfft_instance_q15 * S,
   uint16_t fftLen)
 {
         /*  Initialise the default arm status */
@@ -272,68 +275,68 @@ arm_status arm_cfft_init_f32(
 
         /*  Initializations of Instance structure depending on the FFT length */
         switch (S->fftLen) {
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_4096) && defined(ARM_TABLE_BITREVIDX_FLT_4096))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_4096) && defined(ARM_TABLE_BITREVIDX_FLT_4096))
             /*  Initializations of structure parameters for 4096 point FFT */
         case 4096U:
             /*  Initialise the bit reversal table modifier */
-            FFTINIT(f32,4096);
+            FFTINIT(q15,4096);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_2048) && defined(ARM_TABLE_BITREVIDX_FLT_2048))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_2048) && defined(ARM_TABLE_BITREVIDX_FLT_2048))
             /*  Initializations of structure parameters for 2048 point FFT */
         case 2048U:
             /*  Initialise the bit reversal table modifier */
-            FFTINIT(f32,2048);
+            FFTINIT(q15,2048);
 
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_1024) && defined(ARM_TABLE_BITREVIDX_FLT_1024))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_1024) && defined(ARM_TABLE_BITREVIDX_FLT_1024))
             /*  Initializations of structure parameters for 1024 point FFT */
         case 1024U:
             /*  Initialise the bit reversal table modifier */
-            FFTINIT(f32,1024);
+            FFTINIT(q15,1024);
 
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_512) && defined(ARM_TABLE_BITREVIDX_FLT_512))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_512) && defined(ARM_TABLE_BITREVIDX_FLT_512))
             /*  Initializations of structure parameters for 512 point FFT */
         case 512U:
             /*  Initialise the bit reversal table modifier */
-            FFTINIT(f32,512);
+            FFTINIT(q15,512);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_256) && defined(ARM_TABLE_BITREVIDX_FLT_256))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_256) && defined(ARM_TABLE_BITREVIDX_FLT_256))
         case 256U:
-            FFTINIT(f32,256);
+            FFTINIT(q15,256);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_128) && defined(ARM_TABLE_BITREVIDX_FLT_128))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_128) && defined(ARM_TABLE_BITREVIDX_FLT_128))
         case 128U:
-            FFTINIT(f32,128);
+            FFTINIT(q15,128);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_64) && defined(ARM_TABLE_BITREVIDX_FLT_64))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_64) && defined(ARM_TABLE_BITREVIDX_FLT_64))
         case 64U:
-            FFTINIT(f32,64);
+            FFTINIT(q15,64);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_32) && defined(ARM_TABLE_BITREVIDX_FLT_32))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_32) && defined(ARM_TABLE_BITREVIDX_FLT_32))
         case 32U:
-            FFTINIT(f32,32);
+            FFTINIT(q15,32);
             break;
 #endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_F32_16) && defined(ARM_TABLE_BITREVIDX_FLT_16))
+#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOEF_Q31_16) && defined(ARM_TABLE_BITREVIDX_FLT_16))
         case 16U:
             /*  Initializations of structure parameters for 16 point FFT */
-            FFTINIT(f32,16);
+            FFTINIT(q15,16);
             break;
 #endif
 
