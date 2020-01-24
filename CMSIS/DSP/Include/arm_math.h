@@ -3309,21 +3309,6 @@ arm_status arm_rfft_fast_init_f64 (
          arm_rfft_fast_instance_f64 * S,
          uint16_t fftLen);
 
-arm_status arm_rfft_32_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_64_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_128_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_256_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_512_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_1024_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_2048_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
-
-arm_status arm_rfft_4096_fast_init_f64 ( arm_rfft_fast_instance_f64 * S );
 
 void arm_rfft_fast_f64(
     arm_rfft_fast_instance_f64 * S,
@@ -3345,25 +3330,9 @@ arm_status arm_rfft_fast_init_f32 (
          arm_rfft_fast_instance_f32 * S,
          uint16_t fftLen);
 
-arm_status arm_rfft_32_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_64_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_128_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_256_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_512_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_1024_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_2048_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
-arm_status arm_rfft_4096_fast_init_f32 ( arm_rfft_fast_instance_f32 * S );
-
 
   void arm_rfft_fast_f32(
-        arm_rfft_fast_instance_f32 * S,
+        const arm_rfft_fast_instance_f32 * S,
         float32_t * p, float32_t * pOut,
         uint8_t ifftFlag);
 
@@ -8555,13 +8524,13 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
 
     /* Care taken for table outside boundary */
     /* Returns zero output when values are outside table boundary */
-    if (xIndex < 0 || xIndex > (S->numRows - 1) || yIndex < 0 || yIndex > (S->numCols - 1))
+    if (xIndex < 0 || xIndex > (S->numCols - 2) || yIndex < 0 || yIndex > (S->numRows - 2))
     {
       return (0);
     }
 
     /* Calculation of index for two nearest points in X-direction */
-    index = (xIndex - 1) + (yIndex - 1) * S->numCols;
+    index = (xIndex ) + (yIndex ) * S->numCols;
 
 
     /* Read two nearest points in X-direction */
@@ -8569,7 +8538,7 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
     f01 = pData[index + 1];
 
     /* Calculation of index for two nearest points in Y-direction */
-    index = (xIndex - 1) + (yIndex) * S->numCols;
+    index = (xIndex ) + (yIndex+1) * S->numCols;
 
 
     /* Read two nearest points in Y-direction */
@@ -8628,7 +8597,7 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
 
     /* Care taken for table outside boundary */
     /* Returns zero output when values are outside table boundary */
-    if (rI < 0 || rI > (S->numRows - 1) || cI < 0 || cI > (S->numCols - 1))
+    if (rI < 0 || rI > (S->numCols - 2) || cI < 0 || cI > (S->numRows - 2))
     {
       return (0);
     }
@@ -8702,7 +8671,7 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
 
     /* Care taken for table outside boundary */
     /* Returns zero output when values are outside table boundary */
-    if (rI < 0 || rI > (S->numRows - 1) || cI < 0 || cI > (S->numCols - 1))
+    if (rI < 0 || rI > (S->numCols - 2) || cI < 0 || cI > (S->numRows - 2))
     {
       return (0);
     }
@@ -8727,15 +8696,15 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
 
     /* x1 is in 1.15(q15), xfract in 12.20 format and out is in 13.35 format */
     /* convert 13.35 to 13.31 by right shifting  and out is in 1.31 */
-    out = (q31_t) (((q63_t) x1 * (0xFFFFF - xfract)) >> 4U);
-    acc = ((q63_t) out * (0xFFFFF - yfract));
+    out = (q31_t) (((q63_t) x1 * (0x0FFFFF - xfract)) >> 4U);
+    acc = ((q63_t) out * (0x0FFFFF - yfract));
 
     /* x2 * (xfract) * (1-yfract)  in 1.51 and adding to acc */
-    out = (q31_t) (((q63_t) x2 * (0xFFFFF - yfract)) >> 4U);
+    out = (q31_t) (((q63_t) x2 * (0x0FFFFF - yfract)) >> 4U);
     acc += ((q63_t) out * (xfract));
 
     /* y1 * (1 - xfract) * (yfract)  in 1.51 and adding to acc */
-    out = (q31_t) (((q63_t) y1 * (0xFFFFF - xfract)) >> 4U);
+    out = (q31_t) (((q63_t) y1 * (0x0FFFFF - xfract)) >> 4U);
     acc += ((q63_t) out * (yfract));
 
     /* y2 * (xfract) * (yfract)  in 1.51 and adding to acc */
@@ -8780,7 +8749,7 @@ float32_t arm_yule_distance(const uint32_t *pA, const uint32_t *pB, uint32_t num
 
     /* Care taken for table outside boundary */
     /* Returns zero output when values are outside table boundary */
-    if (rI < 0 || rI > (S->numRows - 1) || cI < 0 || cI > (S->numCols - 1))
+    if (rI < 0 || rI > (S->numCols - 2) || cI < 0 || cI > (S->numRows - 2))
     {
       return (0);
     }
