@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        arm_xor_q15.c
- * Description:  Q15 bitwise exclusive OR
+ * Title:        arm_xor_u8.c
+ * Description:  uint8_t bitwise exclusive OR
  *
  * $Date:        14 November 2019
  * $Revision:    V1.6.0
@@ -26,17 +26,10 @@
  * limitations under the License.
  */
 
+#include "arm_math.h"
 
 /**
   @ingroup groupMath
- */
-
-/**
-  @defgroup Xor Vector bitwise exclusive OR
-
-  Compute the logical bitwise XOR.
-
-  There are separate functions for Q31, Q15, and Q7 data types.
  */
 
 /**
@@ -53,39 +46,69 @@
   @return        none
  */
 
-#include "arm_math.h"
-
-void arm_xor_q15(
-    const q15_t * pSrcA,
-    const q15_t * pSrcB,
-    q15_t * pDst,
-    uint32_t blockSize)
+void arm_xor_u8(
+    const uint8_t * pSrcA,
+    const uint8_t * pSrcB,
+          uint8_t * pDst,
+          uint32_t blockSize)
 {
     uint32_t blkCnt;      /* Loop counter */
 
-#if defined(ARM_MATH_NEON)
-    int16x8_t vecA, vecB;
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
+    q7x16_t vecSrcA, vecSrcB;
 
-    /* Compute 8 outputs at a time */
-    blkCnt = blockSize >> 3U;
+    /* Compute 16 outputs at a time */
+    blkCnt = blockSize >> 4;
 
     while (blkCnt > 0U)
     {
-        vecA = vld1q_s16(pSrcA);
-        vecB = vld1q_s16(pSrcB);
+        vecSrcA = vld1q(pSrcA);
+        vecSrcB = vld1q(pSrcB);
 
-        vst1q_s16(pDst, veorq_s16(vecA, vecB) );
+        vst1q(pDst, veorq_u8(vecSrcA, vecSrcB) );
 
-        pSrcA += 8;
-        pSrcB += 8;
-        pDst  += 8;
+        pSrcA += 16;
+        pSrcB += 16;
+        pDst  += 16;
 
         /* Decrement the loop counter */
         blkCnt--;
     }
 
     /* Tail */
-    blkCnt = blockSize & 7;
+    blkCnt = blockSize & 0xF;
+
+    if (blkCnt > 0U)
+    {
+        mve_pred16_t p0 = vctp8q(blkCnt);
+        vecSrcA = vld1q(pSrcA);
+        vecSrcB = vld1q(pSrcB);
+        vstrbq_p(pDst, veorq_u8(vecSrcA, vecSrcB), p0);
+    }
+#else
+#if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+    uint8x16_t vecA, vecB;
+
+    /* Compute 16 outputs at a time */
+    blkCnt = blockSize >> 4U;
+
+    while (blkCnt > 0U)
+    {
+        vecA = vld1q_u8(pSrcA);
+        vecB = vld1q_u8(pSrcB);
+
+        vst1q_u8(pDst, veorq_u8(vecA, vecB) );
+
+        pSrcA += 16;
+        pSrcB += 16;
+        pDst  += 16;
+
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
+
+    /* Tail */
+    blkCnt = blockSize & 0xF;
 #else
     /* Initialize blkCnt with number of samples */
     blkCnt = blockSize;
@@ -98,6 +121,7 @@ void arm_xor_q15(
         /* Decrement the loop counter */
         blkCnt--;
     }
+#endif /* if defined(ARM_MATH_MVEI) */
 }
 
 /**

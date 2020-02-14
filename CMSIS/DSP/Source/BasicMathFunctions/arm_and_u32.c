@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        arm_or_q7.c
- * Description:  Q7 bitwise inclusive OR
+ * Title:        arm_and_u32.c
+ * Description:  uint32_t bitwise AND
  *
  * $Date:        14 November 2019
  * $Revision:    V1.6.0
@@ -28,19 +28,17 @@
 
 #include "arm_math.h"
 
-
 /**
   @ingroup groupMath
  */
 
-
 /**
-  @addtogroup Or
+  @addtogroup And
   @{
  */
 
 /**
-  @brief         Compute the logical bitwise OR of two fixed-point vectors.
+  @brief         Compute the logical bitwise AND of two fixed-point vectors.
   @param[in]     pSrcA      points to input vector A
   @param[in]     pSrcB      points to input vector B
   @param[out]    pDst       points to output vector
@@ -48,37 +46,69 @@
   @return        none
  */
 
-void arm_or_q7(
-    const q7_t * pSrcA,
-    const q7_t * pSrcB,
-    q7_t * pDst,
-    uint32_t blockSize)
+void arm_and_u32(
+    const uint32_t * pSrcA,
+    const uint32_t * pSrcB,
+          uint32_t * pDst,
+          uint32_t blockSize)
 {
     uint32_t blkCnt;      /* Loop counter */
 
-#if defined(ARM_MATH_NEON)
-    int8x16_t vecA, vecB;
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
+    q31x4_t vecSrcA, vecSrcB;
 
-    /* Compute 16 outputs at a time */
-    blkCnt = blockSize >> 4U;
+    /* Compute 4 outputs at a time */
+    blkCnt = blockSize >> 2;
 
     while (blkCnt > 0U)
     {
-        vecA = vld1q_s8(pSrcA);
-        vecB = vld1q_s8(pSrcB);
+        vecSrcA = vld1q(pSrcA);
+        vecSrcB = vld1q(pSrcB);
 
-        vst1q_s8(pDst, vorrq_s8(vecA, vecB) );
+        vst1q(pDst, vandq_u32(vecSrcA, vecSrcB) );
 
-        pSrcA += 16;
-        pSrcB += 16;
-        pDst  += 16;
+        pSrcA += 4;
+        pSrcB += 4;
+        pDst  += 4;
 
         /* Decrement the loop counter */
         blkCnt--;
     }
 
     /* Tail */
-    blkCnt = blockSize & 0xF;
+    blkCnt = blockSize & 3;
+
+    if (blkCnt > 0U)
+    {
+        mve_pred16_t p0 = vctp32q(blkCnt);
+        vecSrcA = vld1q(pSrcA);
+        vecSrcB = vld1q(pSrcB);
+        vstrwq_p(pDst, vandq_u32(vecSrcA, vecSrcB), p0);
+    }
+#else
+#if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+    uint32x4_t vecA, vecB;
+
+    /* Compute 4 outputs at a time */
+    blkCnt = blockSize >> 2U;
+
+    while (blkCnt > 0U)
+    {
+        vecA = vld1q_u32(pSrcA);
+        vecB = vld1q_u32(pSrcB);
+
+        vst1q_u32(pDst, vandq_u32(vecA, vecB) );
+
+        pSrcA += 4;
+        pSrcB += 4;
+        pDst  += 4;
+
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
+
+    /* Tail */
+    blkCnt = blockSize & 3;
 #else
     /* Initialize blkCnt with number of samples */
     blkCnt = blockSize;
@@ -86,12 +116,14 @@ void arm_or_q7(
 
     while (blkCnt > 0U)
     {
-        *pDst++ = (*pSrcA++)|(*pSrcB++);
+        *pDst++ = (*pSrcA++)&(*pSrcB++);
 
         /* Decrement the loop counter */
         blkCnt--;
     }
+#endif /* if defined(ARM_MATH_MVEI) */
 }
+
 /**
-  @} end of Or group
+  @} end of And group
  */

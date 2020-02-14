@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        arm_not_q7.c
- * Description:  Q7 bitwise NOT
+ * Title:        arm_not_u16.c
+ * Description:  uint16_t bitwise NOT
  *
  * $Date:        14 November 2019
  * $Revision:    V1.6.0
@@ -28,11 +28,17 @@
 
 #include "arm_math.h"
 
-
 /**
   @ingroup groupMath
  */
 
+/**
+  @defgroup Not Vector bitwise NOT
+
+  Compute the logical bitwise NOT.
+
+  There are separate functions for uint32_t, uint16_t, and uint8_t data types.
+ */
 
 /**
   @addtogroup Not
@@ -47,34 +53,63 @@
   @return        none
  */
 
-void arm_not_q7(
-    const q7_t * pSrc,
-          q7_t * pDst,
-    uint32_t blockSize)
+void arm_not_u16(
+    const uint16_t * pSrc,
+          uint16_t * pDst,
+          uint32_t blockSize)
 {
     uint32_t blkCnt;      /* Loop counter */
 
-#if defined(ARM_MATH_NEON)
-    int8x16_t inV;
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
+    q15x8_t vecSrc;
 
-    /* Compute 16 outputs at a time */
-    blkCnt = blockSize >> 4U;
+    /* Compute 8 outputs at a time */
+    blkCnt = blockSize >> 3;
 
     while (blkCnt > 0U)
     {
-        inV = vld1q_s8(pSrc);
+        vecSrc = vld1q(pSrc);
 
-        vst1q_s8(pDst, vmvnq_s8(inV) );
+        vst1q(pDst, vmvnq_u16(vecSrc) );
 
-        pSrc += 16;
-        pDst += 16;
+        pSrc += 8;
+        pDst += 8;
 
         /* Decrement the loop counter */
         blkCnt--;
     }
 
     /* Tail */
-    blkCnt = blockSize & 0xF;
+    blkCnt = blockSize & 7;
+
+    if (blkCnt > 0U)
+    {
+        mve_pred16_t p0 = vctp16q(blkCnt);
+        vecSrc = vld1q(pSrc);
+        vstrhq_p(pDst, vmvnq_u16(vecSrc), p0);
+    }
+#else
+#if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+    uint16x8_t inV;
+
+    /* Compute 8 outputs at a time */
+    blkCnt = blockSize >> 3U;
+
+    while (blkCnt > 0U)
+    {
+        inV = vld1q_u16(pSrc);
+
+        vst1q_u16(pDst, vmvnq_u16(inV) );
+
+        pSrc += 8;
+        pDst += 8;
+
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
+
+    /* Tail */
+    blkCnt = blockSize & 7;
 #else
     /* Initialize blkCnt with number of samples */
     blkCnt = blockSize;
@@ -87,6 +122,7 @@ void arm_not_q7(
         /* Decrement the loop counter */
         blkCnt--;
     }
+#endif /* if defined(ARM_MATH_MVEI) */
 }
 
 /**

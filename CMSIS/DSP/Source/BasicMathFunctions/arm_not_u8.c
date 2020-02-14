@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
- * Title:        arm_not_q31.c
- * Description:  Q31 bitwise NOT
+ * Title:        arm_not_u8.c
+ * Description:  uint8_t bitwise NOT
  *
  * $Date:        14 November 2019
  * $Revision:    V1.6.0
@@ -28,11 +28,9 @@
 
 #include "arm_math.h"
 
-
 /**
   @ingroup groupMath
  */
-
 
 /**
   @addtogroup Not
@@ -47,34 +45,63 @@
   @return        none
  */
 
-void arm_not_q31(
-    const q31_t * pSrc,
-          q31_t * pDst,
-    uint32_t blockSize)
+void arm_not_u8(
+    const uint8_t * pSrc,
+          uint8_t * pDst,
+          uint32_t blockSize)
 {
     uint32_t blkCnt;      /* Loop counter */
 
-#if defined(ARM_MATH_NEON)
-    int32x4_t inV;
+#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
+    q7x16_t vecSrc;
 
-    /* Compute 4 outputs at a time */
-    blkCnt = blockSize >> 2U;
+    /* Compute 16 outputs at a time */
+    blkCnt = blockSize >> 4;
 
     while (blkCnt > 0U)
     {
-        inV = vld1q_s32(pSrc);
+        vecSrc = vld1q(pSrc);
 
-        vst1q_s32(pDst, vmvnq_s32(inV) );
+        vst1q(pDst, vmvnq_u8(vecSrc) );
 
-        pSrc += 4;
-        pDst += 4;
+        pSrc += 16;
+        pDst += 16;
 
         /* Decrement the loop counter */
         blkCnt--;
     }
 
     /* Tail */
-    blkCnt = blockSize & 3;
+    blkCnt = blockSize & 0xF;
+
+    if (blkCnt > 0U)
+    {
+        mve_pred16_t p0 = vctp8q(blkCnt);
+        vecSrc = vld1q(pSrc);
+        vstrbq_p(pDst, vmvnq_u8(vecSrc), p0);
+    }
+#else
+#if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+    uint8x16_t inV;
+
+    /* Compute 16 outputs at a time */
+    blkCnt = blockSize >> 4U;
+
+    while (blkCnt > 0U)
+    {
+        inV = vld1q_u8(pSrc);
+
+        vst1q_u8(pDst, vmvnq_u8(inV) );
+
+        pSrc += 16;
+        pDst += 16;
+
+        /* Decrement the loop counter */
+        blkCnt--;
+    }
+
+    /* Tail */
+    blkCnt = blockSize & 0xF;
 #else
     /* Initialize blkCnt with number of samples */
     blkCnt = blockSize;
@@ -87,6 +114,7 @@ void arm_not_q31(
         /* Decrement the loop counter */
         blkCnt--;
     }
+#endif /* if defined(ARM_MATH_MVEI) */
 }
 
 /**
