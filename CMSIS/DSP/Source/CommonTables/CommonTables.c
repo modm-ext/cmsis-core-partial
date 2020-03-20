@@ -3,13 +3,13 @@
  * Title:        CommonTables.c
  * Description:  Combination of all common table source files.
  *
- * $Date:        18. March 2019
- * $Revision:    V1.0.0
+ * $Date:        08. January 2020
+ * $Revision:    V1.1.0
  *
  * Target Processor: Cortex-M cores
  * -------------------------------------------------------------------- */
 /*
- * Copyright (C) 2019 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2019-2020 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *

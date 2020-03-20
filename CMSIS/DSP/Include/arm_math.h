@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     arm_math.h
  * @brief    Public header file for CMSIS DSP Library
- * @version  V1.6.0
+ * @version  V1.7.0
  * @date     18. March 2019
  ******************************************************************************/
 /*
@@ -54,11 +54,7 @@
    * ------------
    *
    * The library installer contains prebuilt versions of the libraries in the <code>Lib</code> folder.
-   * Pre-built libraries will not be updated to contain new functions.
-   * So, SVM, Bayes, Distance functions and experimental functions are not included in those libraries.
-   * If you want to use those functions, you'll have to modify the projects, include the missing
-   * files and rebuild.
-   * You can also use the cmake to build the libraries and select what you want to be included.
+   *
    * Here is the list of pre-built libraries :
    * - arm_cortexM7lfdp_math.lib (Cortex-M7, Little endian, Double Precision Floating Point Unit)
    * - arm_cortexM7bfdp_math.lib (Cortex-M7, Big endian, Double Precision Floating Point Unit)
