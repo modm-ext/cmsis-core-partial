@@ -188,7 +188,9 @@ static void arm_fir_f32_1_4_mve(const arm_fir_instance_f32 * S, const float32_t 
 
             blkCnt--;
         }
+
         blkCnt = blockSize & 3;
+        if (blkCnt > 0U)
         {
             mve_pred16_t p0 = vctp32q(blkCnt);
 
@@ -217,6 +219,7 @@ static void arm_fir_f32_1_4_mve(const arm_fir_instance_f32 * S, const float32_t 
      */
     pTempSrc = &S->pState[blockSize];
     pTempDest = S->pState;
+
     blkCnt = numTaps >> 2;
     while (blkCnt > 0U)
     {
@@ -225,6 +228,7 @@ static void arm_fir_f32_1_4_mve(const arm_fir_instance_f32 * S, const float32_t 
         pTempDest += 4;
         blkCnt--;
     }
+
     blkCnt = numTaps & 3;
     if (blkCnt > 0U)
     {
@@ -232,7 +236,6 @@ static void arm_fir_f32_1_4_mve(const arm_fir_instance_f32 * S, const float32_t 
         vstrwq_p_f32(pTempDest, vld1q(pTempSrc), p0);
     }
 }
-
 
 
 static void arm_fir_f32_5_8_mve(const arm_fir_instance_f32 * S, const float32_t * pSrc, float32_t * pDst, uint32_t blockSize)
@@ -314,8 +317,8 @@ static void arm_fir_f32_5_8_mve(const arm_fir_instance_f32 * S, const float32_t 
     }
 
     blkCnt = blockSize & 3;
+    if (blkCnt > 0U)
     {
-
         mve_pred16_t p0 = vctp32q(blkCnt);
 
         vstrwq_p_f32(pStateCur, vld1q(pTempSrc),p0);
@@ -363,6 +366,7 @@ static void arm_fir_f32_5_8_mve(const arm_fir_instance_f32 * S, const float32_t 
         pTempDest += 4;
         blkCnt--;
     }
+
     blkCnt = numTaps & 3;
     if (blkCnt > 0U)
     {
@@ -370,6 +374,7 @@ static void arm_fir_f32_5_8_mve(const arm_fir_instance_f32 * S, const float32_t 
         vstrwq_p_f32(pTempDest, vld1q(pTempSrc), p0);
     }
 }
+
 
 void arm_fir_f32(
 const arm_fir_instance_f32 * S,
@@ -411,9 +416,6 @@ uint32_t blockSize)
            return;
        }
     }
-
-
-
 
     if (blockSize >= 8)
     {
@@ -531,6 +533,7 @@ uint32_t blockSize)
         }
 
         blkCnt = blockSize & 3;
+        if (blkCnt > 0U)
         {
             mve_pred16_t p0 = vctp32q(blkCnt);
             int32_t       i;
@@ -627,7 +630,6 @@ uint32_t blockSize)
                 numCnt --;
             }
 
-
             vstrwq_p_f32(pOutput, vecAcc0, p0);
         }
     }
@@ -640,6 +642,7 @@ uint32_t blockSize)
         uint32_t numTaps = S->numTaps;                 /* Number of filter coefficients in the filter */
         uint32_t i, blkCnt;                    /* Loop counters */
         pStateCurnt = &(S->pState[(numTaps - 1U)]);
+
         blkCnt = blockSize;
         while (blkCnt > 0U)
         {
@@ -667,7 +670,6 @@ uint32_t blockSize)
           }
 
 
-
           /* Store result in destination buffer. */
           *pDst++ = acc0;
 
@@ -693,6 +695,7 @@ uint32_t blockSize)
         pTempDest += 4;
         blkCnt--;
     }
+
     blkCnt = numTaps & 3;
     if (blkCnt > 0U)
     {

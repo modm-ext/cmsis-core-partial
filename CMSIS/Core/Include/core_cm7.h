@@ -2,7 +2,7 @@
  * @file     core_cm7.h
  * @brief    CMSIS Cortex-M7 Core Peripheral Access Layer Header File
  * @version  V5.1.2
- * @date     03. March 2020
+ * @date     27. March 2020
  ******************************************************************************/
 /*
  * Copyright (c) 2009-2020 Arm Limited. All rights reserved.
@@ -207,6 +207,11 @@
   #ifndef __DTCM_PRESENT
     #define __DTCM_PRESENT            0U
     #warning "__DTCM_PRESENT        not defined in device header file; using default!"
+  #endif
+
+  #ifndef __VTOR_PRESENT
+    #define __VTOR_PRESENT             1U
+    #warning "__VTOR_PRESENT not defined in device header file; using default!"
   #endif
 
   #ifndef __NVIC_PRIO_BITS
