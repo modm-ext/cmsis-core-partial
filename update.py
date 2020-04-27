@@ -8,8 +8,9 @@ from pathlib import Path
 
 source_paths = [
     "CMSIS/Core/Include",
-    "CMSIS/DSP/Include",
-    "CMSIS/DSP/Source",
+    "CMSIS/DSP/Include/arm_*",
+    "CMSIS/DSP/PrivateInclude/arm_*",
+    "CMSIS/DSP/Source/*/arm_*",
     "CMSIS/DSP/Examples/ARM/*_example/*.c",
     "CMSIS/DSP/Examples/ARM/*_example/*.h",
 ]
