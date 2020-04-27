@@ -17,7 +17,7 @@ source_paths = [
 # clone the repository
 print("Cloning CMSIS_5 repository...")
 if not Path("CMSIS_5").exists():
-    subprocess.run("git clone https://github.com/arm-software/CMSIS_5.git", shell=True)
+    subprocess.run("git clone https://github.com/arm-software/CMSIS_5.git -b master", shell=True)
 
 # remove the sources in this repo
 if Path("CMSIS").exists():
