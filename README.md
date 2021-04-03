@@ -7,6 +7,4 @@ The following paths are extracted:
 - `CMSIS/DSP/Include`
 - `CMSIS/DSP/Source`
 
-More paths may be added in the future.
-
-This repository is updated daily by TravisCI.
+This repository is updated periodically by GitHub Actions.
