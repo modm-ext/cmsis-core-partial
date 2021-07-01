@@ -8,6 +8,7 @@ import urllib.request
 source_paths = [
     "CMSIS/Core/Include/**/*.h",
     "CMSIS/DSP/Include/arm_*",
+    "CMSIS/DSP/Include/*/*",
     "CMSIS/DSP/PrivateInclude/arm_*",
     "CMSIS/DSP/Source/*/arm_*",
     "CMSIS/DSP/Examples/ARM/*_example/*.c",
@@ -22,7 +23,7 @@ if "--fast" not in sys.argv:
     print("Cloning CMSIS_5 repository at tag v{}...".format(tag))
     shutil.rmtree("cmsis_src", ignore_errors=True)
     subprocess.run("GIT_LFS_SKIP_SMUDGE=1 git clone --depth=1 --branch {} ".format(tag) +
-                   "https://github.com/arm-software/CMSIS_5.git  cmsis_src", shell=True)
+                   "https://github.com/arm-software/CMSIS_5.git cmsis_src", shell=True)
 
 # remove the sources in this repo
 shutil.rmtree("CMSIS", ignore_errors=True)
