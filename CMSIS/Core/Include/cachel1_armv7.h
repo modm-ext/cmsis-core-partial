@@ -1,11 +1,11 @@
 /******************************************************************************
  * @file     cachel1_armv7.h
  * @brief    CMSIS Level 1 Cache API for Armv7-M and later
- * @version  V1.0.0
- * @date     03. March 2020
+ * @version  V1.0.1
+ * @date     19. April 2021
  ******************************************************************************/
 /*
- * Copyright (c) 2020 Arm Limited. All rights reserved.
+ * Copyright (c) 2020-2021 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -112,7 +112,7 @@ __STATIC_FORCEINLINE void SCB_InvalidateICache (void)
   \param[in]   addr    address
   \param[in]   isize   size of memory block (in number of bytes)
 */
-__STATIC_FORCEINLINE void SCB_InvalidateICache_by_Addr (void *addr, int32_t isize)
+__STATIC_FORCEINLINE void SCB_InvalidateICache_by_Addr (volatile void *addr, int32_t isize)
 {
   #if defined (__ICACHE_PRESENT) && (__ICACHE_PRESENT == 1U)
     if ( isize > 0 ) {
@@ -325,7 +325,7 @@ __STATIC_FORCEINLINE void SCB_CleanInvalidateDCache (void)
   \param[in]   addr    address
   \param[in]   dsize   size of memory block (in number of bytes)
 */
-__STATIC_FORCEINLINE void SCB_InvalidateDCache_by_Addr (void *addr, int32_t dsize)
+__STATIC_FORCEINLINE void SCB_InvalidateDCache_by_Addr (volatile void *addr, int32_t dsize)
 {
   #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
     if ( dsize > 0 ) {
@@ -355,7 +355,7 @@ __STATIC_FORCEINLINE void SCB_InvalidateDCache_by_Addr (void *addr, int32_t dsiz
   \param[in]   addr    address
   \param[in]   dsize   size of memory block (in number of bytes)
 */
-__STATIC_FORCEINLINE void SCB_CleanDCache_by_Addr (uint32_t *addr, int32_t dsize)
+__STATIC_FORCEINLINE void SCB_CleanDCache_by_Addr (volatile void *addr, int32_t dsize)
 {
   #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
     if ( dsize > 0 ) {
@@ -385,7 +385,7 @@ __STATIC_FORCEINLINE void SCB_CleanDCache_by_Addr (uint32_t *addr, int32_t dsize
   \param[in]   addr    address (aligned to 32-byte boundary)
   \param[in]   dsize   size of memory block (in number of bytes)
 */
-__STATIC_FORCEINLINE void SCB_CleanInvalidateDCache_by_Addr (uint32_t *addr, int32_t dsize)
+__STATIC_FORCEINLINE void SCB_CleanInvalidateDCache_by_Addr (volatile void *addr, int32_t dsize)
 {
   #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
     if ( dsize > 0 ) {
