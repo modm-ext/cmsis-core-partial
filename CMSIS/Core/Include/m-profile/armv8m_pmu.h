@@ -1,9 +1,3 @@
-/******************************************************************************
- * @file     pmu_armv8.h
- * @brief    CMSIS PMU API for Armv8.1-M PMU
- * @version  V1.0.1
- * @date     15. April 2020
- ******************************************************************************/
 /*
  * Copyright (c) 2020 Arm Limited. All rights reserved.
  *
@@ -22,14 +16,18 @@
  * limitations under the License.
  */
 
+/*
+ * CMSIS-Core(M) PMU API for Armv8.1-M PMU
+ */
+
+#ifndef ARM_PMU_ARMV8_H
+#define ARM_PMU_ARMV8_H
+
 #if   defined ( __ICCARM__ )
   #pragma system_include         /* treat file as system include file for MISRA check */
 #elif defined (__clang__)
   #pragma clang system_header    /* treat file as system include file */
 #endif
-
-#ifndef ARM_PMU_ARMV8_H
-#define ARM_PMU_ARMV8_H
 
 /**
  * \brief PMU Events

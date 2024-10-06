@@ -1,11 +1,5 @@
-/******************************************************************************
- * @file     tz_context.h
- * @brief    Context Management for Armv8-M TrustZone
- * @version  V1.0.1
- * @date     10. January 2018
- ******************************************************************************/
 /*
- * Copyright (c) 2017-2018 Arm Limited. All rights reserved.
+ * Copyright (c) 2017-2023 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -20,6 +14,10 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
+
+/*
+ * CMSIS Core(M) Context Management for Armv8-M TrustZone
  */
 
 #if   defined ( __ICCARM__ )
