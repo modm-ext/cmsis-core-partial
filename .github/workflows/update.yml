@@ -7,7 +7,7 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -15,17 +15,12 @@ jobs:
         run: |
           git config --global user.email "bot@modm.io"
           git config --global user.name "modm update bot"
-      - name: Run update.py script
+      - name: Update repository
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
-          python3 update.py
+          wget -qL https://raw.githubusercontent.com/modm-ext/partial/main/partial.py
+          python3 partial.py -v arm-software/CMSIS_6 LICENSE "CMSIS/Core/Include/**/*.h"
       - name: Git push
         run: |
           git push origin main
-
-  keep-alive:
-    runs-on: ubuntu-22.04
-    permissions:
-      actions: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: gautamkrishnar/keepalive-workflow@v2
